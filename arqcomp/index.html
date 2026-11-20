@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt_BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topo">
+        <h1>Cruzadinha de Arquitetura Computacional</h1>
+        <p>Leia a pista, descubra o termo e digite as letras direto nas casas. Clique numa pista para ir até a palavra.</p>
+    </header>
+
+    <main class="jogo">
+        <section class="area-tabuleiro">
+            <div id="tabuleiro" class="tabuleiro" aria-label="Tabuleiro da cruzadinha"></div>
+
+            <div class="barra">
+                <button id="btnConferir" class="botao primario" type="button">Conferir</button>
+                <button id="btnReiniciar" class="botao" type="button">Reiniciar</button>
+                <strong id="contador" class="contador">0 de 15 palavras</strong>
+            </div>
+            <div id="msg" class="msg" role="status"></div>
+        </section>
+
+        <section class="area-pistas">
+            <div class="bloco">
+                <h2>Horizontais</h2>
+                <ol id="listaH" class="pistas"></ol>
+            </div>
+            <div class="bloco">
+                <h2>Verticais</h2>
+                <ol id="listaV" class="pistas"></ol>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>
