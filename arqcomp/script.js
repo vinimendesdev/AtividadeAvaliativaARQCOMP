@@ -228,7 +228,7 @@ function aoDigitar(l, c) {
     input.value = letra;
 
     let div = document.getElementById(`celula${l}_${c}`);
-    div.classList.remove(`certa`, `errada`);
+    div.classList.remove(`certa`, `errada`, `revelada`);
 
     if (letra !== ``) {
         moverNaPalavra(l, c, 1);
@@ -283,7 +283,8 @@ function conferir() {
         let certa = true;
         for (let i = 0; i < w.resposta.length; i++) {
             let pos = posicao(w, i);
-            if (matriz[pos.l][pos.c].value !== w.resposta.charAt(i)) {
+            let casa = document.getElementById(`celula${pos.l}_${pos.c}`);
+            if (matriz[pos.l][pos.c].value !== w.resposta.charAt(i) || casa.classList.contains(`revelada`)) {
                 certa = false;
             }
         }
@@ -306,11 +307,28 @@ function conferir() {
             if (matriz[l][c] !== null) {
                 let div = document.getElementById(`celula${l}_${c}`);
                 let letra = matriz[l][c].value;
-                div.classList.remove(`certa`, `errada`);
-                if (letra !== `` && letra === solucao[l][c]) {
-                    div.classList.add(`certa`);
-                } else if (letra !== ``) {
-                    div.classList.add(`errada`);
+                if (!div.classList.contains(`revelada`)) {
+                    div.classList.remove(`certa`, `errada`);
+                    if (letra !== `` && letra === solucao[l][c]) {
+                        div.classList.add(`certa`);
+                    } else if (letra !== ``) {
+                        div.classList.add(`errada`);
+                    }
+                }
+            }
+        }
+    }
+
+    for (let p = 0; p < palavras.length; p++) {
+        if (document.getElementById(`pista${p}`).classList.contains(`errada`)) {
+            let w = palavras[p];
+            for (let i = 0; i < w.resposta.length; i++) {
+                let pos = posicao(w, i);
+                let casa = document.getElementById(`celula${pos.l}_${pos.c}`);
+                if (matriz[pos.l][pos.c].value !== solucao[pos.l][pos.c]) {
+                    matriz[pos.l][pos.c].value = solucao[pos.l][pos.c];
+                    casa.classList.remove(`certa`, `errada`);
+                    casa.classList.add(`revelada`);
                 }
             }
         }
@@ -323,9 +341,9 @@ function conferir() {
     if (acertos === total) {
         msg.textContent = `Parabéns! Você acertou as ${total} palavras.`;
     } else if (acertos === 0) {
-        msg.textContent = `Nenhuma palavra certa ainda. Releia as pistas e tente de novo.`;
+        msg.textContent = `Nenhuma palavra certa ainda. As respostas apareceram em azul; clique em Reiniciar para tentar de novo.`;
     } else {
-        msg.textContent = `Faltam ${total - acertos} palavras. As pistas com ✗ estão erradas ou incompletas.`;
+        msg.textContent = `Faltam ${total - acertos} palavras. As erradas foram completadas em azul para mostrar a resposta certa.`;
     }
 }
 
@@ -334,7 +352,7 @@ function reiniciar() {
         for (let c = 0; c < COLUNAS; c++) {
             if (matriz[l][c] !== null) {
                 matriz[l][c].value = ``;
-                document.getElementById(`celula${l}_${c}`).classList.remove(`certa`, `errada`, `ativa`, `palavra-ativa`);
+                document.getElementById(`celula${l}_${c}`).classList.remove(`certa`, `errada`, `revelada`, `ativa`, `palavra-ativa`);
             }
         }
     }

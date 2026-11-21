@@ -88,6 +88,8 @@ body {
 .celula:focus-within { outline: 3px solid var(--cobre); outline-offset: 1px; z-index: 1; }
 .celula.certa { background: var(--certa); }
 .celula.certa input { color: var(--certa-txt); }
+.celula.revelada { background: #CFE0F5; }
+.celula.revelada input { color: #1B3A6B; }
 .celula.errada { background: var(--errada); }
 .celula.errada input { color: var(--errada-txt); }
 
