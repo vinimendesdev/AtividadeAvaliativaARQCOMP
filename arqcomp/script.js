@@ -17,6 +17,25 @@ let palavras = [
     { num: 15, dir: `H`, resposta: `FLASH`,          linha: 13, coluna: 0,  pista: `Memória não volátil regravável em blocos, usada em pendrives e cartões SD.` }
 ];
 
+// Dicas rápidas que aparecem enquanto a pessoa escreve (nunca entregam a resposta)
+let dicas = {
+    MEMORIADEMASSA: `Não perde nada ao desligar o computador.`,
+    REGISTRADORES: `Ficam dentro da CPU e são ultrarrápidos.`,
+    DMA: `Conversa direto com a RAM, sem incomodar a CPU.`,
+    DATABUS: `A informação vai e volta por ele.`,
+    EEPROM: `Apaga e regrava byte a byte.`,
+    ROM: `Já vem gravada de fábrica.`,
+    ADDRESSBUS: `Só vai da CPU para a memória, nunca volta.`,
+    RAM: `Perde tudo quando o computador desliga.`,
+    ULA: `Faz as contas dentro da CPU.`,
+    QUADCORE: `Quatro de uma vez só.`,
+    CPU: `É o chip principal do computador.`,
+    UC: `Só duas letras: é quem comanda.`,
+    CACHE: `Atalho rápido para a CPU não esperar.`,
+    DUALCORE: `Dois de uma vez só.`,
+    FLASH: `Mesma tecnologia dos SSDs.`
+};
+
 let LINHAS = 14;
 let COLUNAS = 12;
 let matriz = [];    // inputs de cada casa (null = sem casa)
@@ -174,6 +193,16 @@ function destacar(l, c) {
         document.getElementById(`pista${p}`).classList.add(`pista-ativa`);
     }
     document.getElementById(`celula${l}_${c}`).classList.add(`ativa`);
+
+    let caixa = document.getElementById(`dica`);
+    if (p !== -1) {
+        let w = palavras[p];
+        caixa.textContent = `💡 Dica (${w.resposta.length} letras): ${dicas[w.resposta]}`;
+        caixa.classList.add(`visivel`);
+    } else {
+        caixa.textContent = ``;
+        caixa.classList.remove(`visivel`);
+    }
 }
 
 // Move dentro da mesma palavra (passo 1 = frente, -1 = trás)
@@ -318,6 +347,8 @@ function reiniciar() {
 
     direcao = `H`;
     ultimaChave = ``;
+    document.getElementById(`dica`).textContent = ``;
+    document.getElementById(`dica`).classList.remove(`visivel`);
     document.getElementById(`contador`).textContent = `0 de ${palavras.length} palavras`;
     document.getElementById(`msg`).textContent = `Tabuleiro reiniciado. Boa sorte!`;
 }
